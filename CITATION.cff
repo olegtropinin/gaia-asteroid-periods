@@ -7,4 +7,6 @@ authors:
     given-names: Oleg
 repository-code: "https://github.com/olegtropinin/gaia-asteroid-periods"
 license: CC-BY-SA-4.0
+doi: 10.5281/zenodo.23624116
+version: v1.0.0
 date-released: 2026-10-24

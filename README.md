@@ -1,6 +1,7 @@
 # Candidate rotation periods for 42 main-belt asteroids from Gaia DR3 sparse photometry
 
 **Author:** Oleg Tropinin (independent researcher, Kazakhstan)
+**DOI:** [10.5281/zenodo.23624116](https://doi.org/10.5281/zenodo.23624116) (v1.0.0; all versions: [10.5281/zenodo.23624115](https://doi.org/10.5281/zenodo.23624115))  
 **Status:** candidates. Not yet confirmed by dense lightcurves (see [Reliability](#reliability)).
 
 This repository contains rotation-period candidates for 42 numbered main-belt asteroids.
