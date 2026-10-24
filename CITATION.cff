@@ -3,10 +3,10 @@ title: "Candidate rotation periods for 42 main-belt asteroids from Gaia DR3 spar
 message: "If you use these candidates or the code, please cite this repository."
 type: dataset
 authors:
-  - family-names: Tropinin
+  - family-names: Tropynin
     given-names: Oleg
 repository-code: "https://github.com/olegtropinin/gaia-asteroid-periods"
 license: CC-BY-SA-4.0
-doi: 10.5281/zenodo.23624116
-version: v1.0.0
+doi: 10.5281/zenodo.23624115
+version: v1.0.1
 date-released: 2026-10-24

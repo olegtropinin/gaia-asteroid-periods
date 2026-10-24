@@ -1,6 +1,6 @@
 # Candidate Rotation Periods of 42 Main-Belt Asteroids from Gaia DR3 Sparse Photometry
 
-Oleg Tropinin, Independent researcher, Kazakhstan
+Oleg Tropynin, Independent researcher, Kazakhstan
 
 ## Abstract
 
