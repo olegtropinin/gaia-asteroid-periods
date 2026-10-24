@@ -10,12 +10,13 @@ that tells you how far to trust them.
 
 | File | Contents |
 |---|---|
-| `data/candidates.csv` | The 42 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score |
+| `data/candidates.csv` | The 42 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score, reliability (high / low) |
 | `data/validation_known.csv` | The same method run on 300 asteroids whose periods are already known (JPL SBDB / LCDB) |
 | `data/literature_check.csv` | 26 of the original 68 candidates turned out to be published recently; our periods compared with theirs (one row per catalogue match; per asteroid: 17 agree, 5 half, 4 differ) |
 | `code/sciagent.py` | Selection, data download, period search, calibration |
 | `code/novelty_*.py`, `code/export_tables.py` | Novelty checks against VizieR and export of the tables |
 | `NOTE.md` | Short research note (method, validation, results) |
+| `paper/rnaas.tex`, `paper/figure1.*` | Submission version for Research Notes of the AAS (AASTeX 6.3.1) and its figure; `code/make_figure.py` rebuilds the figure |
 
 ## Method
 
@@ -44,14 +45,29 @@ that tells you how far to trust them.
 | Validation set, 2-fold cross-validated (300 asteroids, JPL periods, match = within 3 %) | **67.7 %** correct (full sample: 203 correct, 12 at half the period, 10 at double, 75 wrong) |
 | Validation set, above the confidence threshold (in-sample, optimistic) | 172 / 214 = 80.4 % |
 | Independent check 1: target-set asteroids above threshold that Ďurech & Hanuš (2023) solved from the same Gaia data | 81 / 97 = **83.5 %** agree |
-| Independent check 2: candidates later found in Cellino et al. 2024, MacLennan et al. 2026, McNeill et al. 2023 and Liberato 2024 | 17 / 26 = **65 %** agree; 5 at half their period; 4 differ |
+| Independent check 2: candidates later found in Cellino et al. 2024, MacLennan et al. 2026, McNeill et al. 2023 and Liberato et al. 2024 | 17 / 26 = **65 %** agree; 5 at half their period; 4 differ |
 
 **Known failure mode:** slow rotators. Three of the four disagreements in check 2 are asteroids
 with periods of 214, 818 and about 4,600 h. That is outside the 2–100 h search range, so the method
 returned a spurious short period.
 
-**Expected accuracy of this list:** about 65–80 % of the periods should be correct. Use them as
-targets for confirmation, not as final values.
+**Accuracy depends on the period found.** We pooled every confident result whose true period is known:
+the validation set above threshold, the Ďurech & Hanuš overlap and the post-2023 literature overlap,
+337 asteroids in total.
+
+| Period found | Correct |
+|---|---|
+| 2–10 h | 165 / 203 = 81 % |
+| 10–30 h | 79 / 89 = 89 % |
+| 30–50 h | 15 / 17 = 88 % |
+| 50–100 h | 10 / 28 = **36 %** (usually half of the true period) |
+
+`data/candidates.csv` therefore has a `reliability` column:
+
+- `high` (P < 50 h, 34 asteroids): expect about 83 % to be correct;
+- `low` (P ≥ 50 h, 8 asteroids): the true period is probably twice the value, or longer.
+
+Use all of them as targets for confirmation, not as final values.
 
 ## Novelty check
 

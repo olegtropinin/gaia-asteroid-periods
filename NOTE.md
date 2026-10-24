@@ -11,7 +11,10 @@ known periods: 67.7 % are recovered within 3 % under cross-validation. We applie
 set for 80 % precision. On asteroids that Ďurech & Hanuš (2023) solved from the same data, the method
 agrees in 83.5 % of cases. We report 42 asteroids with no rotation period in LCDB, JPL SBDB, DAMIT,
 the VizieR catalogues or the Minor Planet Bulletin 2023–2026, together with their candidate periods.
-We expect 65–80 % of them to be correct, and offer them as targets for confirmation.
+Accuracy depends on the period: 81–89 % below 50 h, 36 % above it, where the method usually returns
+half of the true period. So we expect about 83 % of the 34 candidates below 50 h to be correct, while
+the 8 above 50 h probably rotate twice as slowly. We offer them as targets for confirmation.
+(The submission version of this note is `paper/rnaas.tex`.)
 
 ## Data and method
 
@@ -33,7 +36,7 @@ confidence threshold, 172 of 214 match (80.4 %, an in-sample and therefore optim
 We ran two independent checks:
 (i) among confident target-set asteroids also solved by Ďurech & Hanuš (2023), 81 of 97 agree (83.5 %);
 (ii) 26 of our initial 68 candidates appeared in catalogues published after our reference lists
-(Cellino et al. 2024; MacLennan et al. 2026; McNeill et al. 2023; Liberato 2024). Of these 26,
+(Cellino et al. 2024; MacLennan et al. 2026; McNeill et al. 2023; Liberato et al. 2024). Of these 26,
 17 agree, 5 are at half the published period, and 4 differ.
 
 Three of the four disagreements are slow rotators (214, 818 and about 4,600 h). Their periods lie
@@ -70,7 +73,7 @@ under the author's direction.
 - Ďurech, J., & Hanuš, J. 2023, A&A, 675, A24
 - Ďurech, J., Sidorin, V., & Kaasalainen, M. 2010, A&A, 513, A46 (DAMIT)
 - Gaia Collaboration, Tanga, P., et al. 2023, A&A, 674, A12
-- Liberato 2024, A&A, 688, A50
+- Liberato et al. 2024, A&A, 688, A50
 - MacLennan et al. 2026, A&A, 707, A131
 - McNeill et al. 2023, AJ, 166, 152
 - Warner, B. D., Harris, A. W., & Pravec, P. 2009, Icarus, 202, 134 (LCDB)

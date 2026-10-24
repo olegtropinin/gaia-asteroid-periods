@@ -1,0 +1,94 @@
+\documentclass[RNAAS]{aastex631}
+
+\begin{document}
+
+\title{Candidate Rotation Periods for 42 Main-belt Asteroids from Gaia DR3 Sparse Photometry}
+
+\author{Oleg Tropinin}
+\affiliation{Independent researcher, Kazakhstan}
+
+\begin{abstract}
+We searched Gaia DR3 sparse photometry of the 6{,}000 asteroids that Gaia observed most often for
+rotation periods. A periodogram with season offsets, a linear phase term and a second-order Fourier
+series was calibrated on asteroids with known periods. On 337 confident results that can be checked
+against published periods, 80\% agree within 3\%. Accuracy is 81--89\% for periods below 50\,h and
+36\% above it, where the method usually returns half of the true period. We report 42 asteroids that
+had no rotation period in LCDB, JPL SBDB, DAMIT, about 180 VizieR tables, or the Minor Planet Bulletin
+2023--2026, and give their candidate periods with a reliability flag as targets for confirmation.
+\end{abstract}
+
+\section{Data and method}
+
+We took the 6{,}000 numbered asteroids with the most Gaia DR3 Solar-System-object observations
+\citep{Tanga2023}. They were split into a validation set (300 asteroids with a period in JPL SBDB, which
+follows the October 2023 revision of the LCDB; \citealt{Warner2009}) and a target set (298 without one).
+Gaia photometry was averaged per transit, with a 0.03\,mag error floor. For every transit, JPL Horizons
+gave the heliocentric distance $r$, the distance $\Delta$ from Gaia and the phase angle $\alpha$, with Gaia
+as the observer. Times were corrected for light time.
+
+The reduced magnitude $G-5\log_{10}(r\Delta)$ was fit by weighted least squares with one offset per
+observing season, a linear phase term and a second-order Fourier series in rotational phase. We scanned
+2--100\,h on a frequency grid with a step of $0.1/T$, where $T$ is the time span. Because most asteroid
+lightcurves are double-peaked, we adopted the doubled period whenever doubling raised $\chi^2$ by less than
+a factor of 1.5. This factor was chosen by two-fold cross-validation. The confidence score combines the
+$\chi^2$ gain over a no-rotation model with the separation of the best minimum from the next one outside
+the $\times1$, $\times2$ and $\times\frac12$ aliases. The threshold was set where precision on the
+validation set reaches 80\%.
+
+\section{Validation}
+
+The cross-validated recovery rate on the validation set is 67.7\%. Above the threshold, we compared every
+result whose period is known (Figure~\ref{fig:1}):
+\begin{itemize}
+\item the validation set (172 of 214 correct);
+\item target-set asteroids that \citet{Durech2023} solved from the same Gaia data (81 of 97);
+\item 26 of our initial candidates that later appeared in \citet{Cellino2024}, \citet{MacLennan2026},
+\citet{McNeill2023} or \citet{Liberato2024} (17 of 26).
+\end{itemize}
+In total, 269 of 337 (80\%) agree.
+
+There are two failure modes. Above 50\,h the method usually returns half of the true period (10 of 28
+correct). Slow rotators with periods beyond 100\,h, such as 214, 818 and about 4{,}600\,h, receive
+spurious short periods.
+
+\begin{figure}[ht!]
+\plotone{figure1.pdf}
+\caption{Period from Gaia DR3 (this work) against the published period for 337 confident results.
+The solid line marks agreement and the dashed line half of the known period. Above 50\,h the method
+usually finds half of the true period.\label{fig:1}}
+\end{figure}
+
+\section{Results}
+
+The 42 candidates are all main-belt asteroids. They were absent from:
+\begin{itemize}
+\item JPL SBDB and LCDB~V4.0;
+\item \citet{Durech2023};
+\item DAMIT \citep{Durech2010};
+\item about 180 VizieR tables (5.1 million rows) that hold asteroid rotation periods;
+\item the full text of the Minor Planet Bulletin, volumes 50--53.
+\end{itemize}
+
+For the 34 candidates below 50\,h we expect about 83\% to be correct. For the 8 above 50\,h, the true period
+is probably twice the value or longer. Periods, alias periods, amplitudes, amounts of data and flags are
+available at \url{https://github.com/olegtropinin/gaia-asteroid-periods}, together with the code and the
+validation tables. We offer the list as targets for dense-lightcurve confirmation.
+
+\begin{acknowledgments}
+This work used data from the ESA mission Gaia, processed by the Gaia DPAC; JPL Horizons and the JPL
+Small-Body Database; and VizieR (CDS, Strasbourg). The analysis was designed, coded and checked with the
+help of an AI assistant (Claude, Anthropic) under the author's direction.
+\end{acknowledgments}
+
+\begin{thebibliography}{}
+\bibitem[Cellino et al.(2024)]{Cellino2024} Cellino, A., et al. 2024, A\&A, 687, A277
+\bibitem[\v{D}urech \& Hanu\v{s}(2023)]{Durech2023} \v{D}urech, J., \& Hanu\v{s}, J. 2023, A\&A, 675, A24
+\bibitem[\v{D}urech et al.(2010)]{Durech2010} \v{D}urech, J., Sidorin, V., \& Kaasalainen, M. 2010, A\&A, 513, A46
+\bibitem[Liberato et al.(2024)]{Liberato2024} Liberato, L., et al. 2024, A\&A, 688, A50
+\bibitem[MacLennan et al.(2026)]{MacLennan2026} MacLennan, E. M., et al. 2026, A\&A, 707, A131
+\bibitem[McNeill et al.(2023)]{McNeill2023} McNeill, A., et al. 2023, AJ, 166, 152
+\bibitem[Tanga et al.(2023)]{Tanga2023} Gaia Collaboration, Tanga, P., et al. 2023, A\&A, 674, A12
+\bibitem[Warner et al.(2009)]{Warner2009} Warner, B.~D., Harris, A.~W., \& Pravec, P. 2009, Icarus, 202, 134
+\end{thebibliography}
+
+\end{document}
