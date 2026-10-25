@@ -1,3 +1,5 @@
+> **Superseded.** This is the original draft (42 candidates). The current note is `paper/rnaas.tex` (v3, 35 candidates); see the update at the top of README.md.
+
 # Candidate Rotation Periods of 42 Main-Belt Asteroids from Gaia DR3 Sparse Photometry
 
 Oleg Tropynin, Independent researcher, Kazakhstan
