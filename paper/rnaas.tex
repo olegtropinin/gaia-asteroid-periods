@@ -2,7 +2,7 @@
 
 \begin{document}
 
-\title{Candidate Rotation Periods for 42 Main-belt Asteroids from Gaia DR3 Sparse Photometry}
+\title{Candidate Rotation Periods for 35 Main-belt Asteroids from Gaia DR3 Sparse Photometry}
 
 \author{Oleg Tropynin}
 \affiliation{Independent researcher, Kazakhstan}
@@ -13,9 +13,10 @@ season offsets, a linear phase term and a second-order Fourier series. Among the
 that Gaia observed most often, I analysed the 300 highest-ranked with a known period (validation set)
 and the 298 highest-ranked without one (target set). On 337 confident results that can be compared with
 published periods, 80\% agree within 3\%. Accuracy is 81--89\% for periods below 50\,h and 36\% above it,
-where the method usually returns half of the true period. I report 42 asteroids that had no rotation
-period in LCDB, JPL SBDB, DAMIT, about 180 VizieR tables, or the Minor Planet Bulletin 2023--2026, with
-candidate periods and a reliability flag, as targets for confirmation.
+where the method usually returns half of the true period. I report 35 asteroids that had no rotation
+period in LCDB, JPL SBDB, DAMIT, about 180 VizieR tables, or the Minor Planet Bulletin 2023--2026, as
+targets for confirmation. An independent reanalysis of all of Gaia DR3 with a refined method recovers the
+same period for all 35.
 \end{abstract}
 
 \section{Data and method}
@@ -46,10 +47,10 @@ result whose period is known (Figure~\ref{fig:1}):
 threshold, and is therefore optimistic;
 \item target-set asteroids that \citet{Durech2023} solved from the same Gaia data with a different method:
 81 of 97 agree. This tests the method, not the data;
-\item 26 of my initial candidates that later appeared in \citet{Cellino2024}, \citet{MacLennan2026},
-\citet{McNeill2023} or \citet{Liberato2024}: 17 of 26 agree.
+\item 25 of my initial candidates that later appeared in \citet{Cellino2024}, \citet{MacLennan2026} or
+\citet{McNeill2023}: 16 of 25 agree.
 \end{itemize}
-In total, 269 of 337 (80\%) agree.
+In total, 268 of 336 (80\%) agree.
 
 There are two failure modes. Above 50\,h the method usually returns half of the true period (10 of 28
 correct). Slow rotators with periods beyond 100\,h, such as 214, 818 and about 4{,}600\,h, receive
@@ -64,7 +65,7 @@ usually finds half of the true period.\label{fig:1}}
 
 \section{Results}
 
-The 42 candidates are all main-belt asteroids. In October 2026 they were absent from:
+The 35 candidates are all main-belt asteroids. In October 2026 they were absent from:
 \begin{itemize}
 \item JPL SBDB and LCDB~V4.0;
 \item \citet{Durech2023};
@@ -73,8 +74,19 @@ The 42 candidates are all main-belt asteroids. In October 2026 they were absent 
 \item the full text of the Minor Planet Bulletin, volumes 50--53.
 \end{itemize}
 
-For the 34 candidates below 50\,h I expect about 83\% to be correct. For the 8 above 50\,h, the true period
-is probably twice the value or longer. Periods, alias periods, amplitudes, amounts of data and flags are
+Of the 35 candidates, 31 have periods below 50\,h, where I expect about 83\% to be correct. Four have
+periods above 50\,h.
+
+An independent reanalysis of all numbered asteroids with at least 25 Gaia DR3 transits used a refined method
+\citep{Tropynin2026b}. It recovers
+the same period, within 3\%, for all 35. It also led me to drop seven earlier candidates:
+\begin{itemize}
+\item four with periods above 50\,h, where the true period is most likely twice the value I found
+(7699, 14372, 43014, 104169);
+\item three where a slow solution is now preferred (13686, 39932, 109412).
+\end{itemize}
+
+Periods, alias periods, amplitudes, amounts of data and flags are
 available at \url{https://github.com/olegtropinin/gaia-asteroid-periods} and archived on Zenodo
 \citep{Tropynin2026}, together with the code and the validation tables. I offer the list as targets for
 dense-lightcurve confirmation.
@@ -89,11 +101,11 @@ help of an AI assistant (Claude, Anthropic) under the author's direction.
 \bibitem[Cellino et al.(2024)]{Cellino2024} Cellino, A., et al. 2024, A\&A, 687, A277
 \bibitem[\v{D}urech \& Hanu\v{s}(2023)]{Durech2023} \v{D}urech, J., \& Hanu\v{s}, J. 2023, A\&A, 675, A24
 \bibitem[\v{D}urech et al.(2010)]{Durech2010} \v{D}urech, J., Sidorin, V., \& Kaasalainen, M. 2010, A\&A, 513, A46
-\bibitem[Liberato et al.(2024)]{Liberato2024} Liberato, L., et al. 2024, A\&A, 688, A50
 \bibitem[MacLennan et al.(2026)]{MacLennan2026} MacLennan, E. M., et al. 2026, A\&A, 707, A131
 \bibitem[McNeill et al.(2023)]{McNeill2023} McNeill, A., et al. 2023, AJ, 166, 152
 \bibitem[Tanga et al.(2023)]{Tanga2023} Gaia Collaboration, Tanga, P., et al. 2023, A\&A, 674, A12
-\bibitem[Tropynin(2026)]{Tropynin2026} Tropynin, O. 2026, Candidate rotation periods for 42 main-belt asteroids from Gaia DR3 sparse photometry, Zenodo, doi:\dataset[10.5281/zenodo.23624115]{https://doi.org/10.5281/zenodo.23624115}
+\bibitem[Tropynin(2026a)]{Tropynin2026} Tropynin, O. 2026a, Candidate rotation periods for main-belt asteroids from Gaia DR3 sparse photometry, Zenodo, doi:\dataset[10.5281/zenodo.23624115]{https://doi.org/10.5281/zenodo.23624115}
+\bibitem[Tropynin(2026b)]{Tropynin2026b} Tropynin, O. 2026b, Rotation periods and spin senses of asteroids from Gaia DR3 sparse photometry, Zenodo, doi:\dataset[10.5281/zenodo.23638281]{https://doi.org/10.5281/zenodo.23638281}
 \bibitem[Warner et al.(2009)]{Warner2009} Warner, B.~D., Harris, A.~W., \& Pravec, P. 2009, Icarus, 202, 134
 \end{thebibliography}
 

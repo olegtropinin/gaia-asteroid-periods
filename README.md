@@ -1,19 +1,27 @@
-# Candidate rotation periods for 42 main-belt asteroids from Gaia DR3 sparse photometry
+# Candidate rotation periods for 35 main-belt asteroids from Gaia DR3 sparse photometry
 
 **Author:** Oleg Tropynin (independent researcher, Kazakhstan)
 **DOI:** [10.5281/zenodo.23624115](https://doi.org/10.5281/zenodo.23624115) (all versions; v1.0.0: [10.5281/zenodo.23624116](https://doi.org/10.5281/zenodo.23624116))  
 **Status:** candidates. Not yet confirmed by dense lightcurves (see [Reliability](#reliability)).
 
-This repository contains rotation-period candidates for 42 numbered main-belt asteroids.
+**Update v1.1.0 (2026-10-25).** The list now has 35 candidates instead of 42.
+- A full-DR3 reanalysis with a refined method ([gaia-dr3-rotation-catalog](https://github.com/olegtropinin/gaia-dr3-rotation-catalog), DOI [10.5281/zenodo.23638281](https://doi.org/10.5281/zenodo.23638281)) recovers the same period for all 35 remaining candidates.
+- Seven earlier candidates are withdrawn and listed with the reason in `data/withdrawn_candidates.csv`:
+  - 7699, 14372, 43014 and 104169 most likely have twice the listed period;
+  - for 13686, 39932 and 109412 a slow solution is now preferred, so they are ambiguous.
+- The novelty check no longer counts Liberato et al. 2024 as a source of rotation periods, because that table gives astrometric wobble periods. Agreement with the literature is now 16 of 25.
+
+This repository contains rotation-period candidates for 35 numbered main-belt asteroids.
 As of October 2026, none of them had a rotation period in any source we checked (listed under
 [Novelty check](#novelty-check)). It also contains the code that produced them and the validation
 that tells you how far to trust them.
 
 | File | Contents |
 |---|---|
-| `data/candidates.csv` | The 42 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score, reliability (high / low) |
+| `data/candidates.csv` | The 35 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score, reliability (high / low) |
 | `data/validation_known.csv` | The same method run on 300 asteroids whose periods are already known (JPL SBDB / LCDB) |
-| `data/literature_check.csv` | 26 of the original 68 candidates turned out to be published recently; our periods compared with theirs (one row per catalogue match; per asteroid: 17 agree, 5 half, 4 differ) |
+| `data/literature_check.csv` | 26 of the original 68 candidates turned out to be published recently; our periods compared with theirs (one row per catalogue match; per asteroid, excluding the Liberato 2024 wobble periods: 16 agree, 5 half, 4 differ) |
+| `data/withdrawn_candidates.csv` | The 7 candidates withdrawn in v1.1.0, with the reason |
 | `code/sciagent.py` | Selection, data download, period search, calibration |
 | `code/novelty_*.py`, `code/export_tables.py` | Novelty checks against VizieR and export of the tables |
 | `NOTE.md` | Short research note (method, validation, results) |

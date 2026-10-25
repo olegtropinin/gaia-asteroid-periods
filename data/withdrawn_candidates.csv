@@ -1,0 +1,8 @@
+number,designation,period_h,alias_period_h,amplitude_mag,n_transits,n_seasons,span_days,confidence,reliability,reason
+7699,Bozek (1989 CB4),64.03816,59.13667,0.43,62,6,979,0.917,low,likely twice the listed period (full-DR3 reanalysis)
+104169,(2000 EB80),89.29437,98.54832,0.60,67,7,1018,0.591,low,likely twice the listed period (full-DR3 reanalysis)
+14372,Paulgerhardt (1989 AD6),54.79250,50.51816,0.51,64,5,834,0.378,low,likely twice the listed period (full-DR3 reanalysis)
+39932,(1998 FQ75),4.06822,2.97935,0.54,60,4,661,0.369,high,ambiguous: slow solution preferred in full-DR3 reanalysis
+43014,(1999 UQ51),53.89508,94.76003,0.18,71,6,1010,0.340,low,likely twice the listed period (full-DR3 reanalysis)
+109412,(2001 QC186),3.00678,2.00598,0.41,67,5,912,0.244,high,ambiguous: slow solution preferred in full-DR3 reanalysis
+13686,Kongozan (1997 QS4),4.01125,3.94133,0.42,61,7,992,0.167,high,ambiguous: slow solution preferred in full-DR3 reanalysis

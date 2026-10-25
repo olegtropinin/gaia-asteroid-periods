@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Candidate rotation periods for 42 main-belt asteroids from Gaia DR3 sparse photometry"
+title: "Candidate rotation periods for 35 main-belt asteroids from Gaia DR3 sparse photometry"
 message: "If you use these candidates or the code, please cite this repository."
 type: dataset
 authors:
@@ -8,5 +8,5 @@ authors:
 repository-code: "https://github.com/olegtropinin/gaia-asteroid-periods"
 license: CC-BY-SA-4.0
 doi: 10.5281/zenodo.23624115
-version: v1.0.1
-date-released: 2026-10-24
+version: v1.1.0
+date-released: 2026-10-25
