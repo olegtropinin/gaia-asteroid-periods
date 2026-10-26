@@ -6,3 +6,4 @@ number,designation,period_h,alias_period_h,amplitude_mag,n_transits,n_seasons,sp
 43014,(1999 UQ51),53.89508,94.76003,0.18,71,6,1010,0.340,low,likely twice the listed period (full-DR3 reanalysis)
 109412,(2001 QC186),3.00678,2.00598,0.41,67,5,912,0.244,high,ambiguous: slow solution preferred in full-DR3 reanalysis
 13686,Kongozan (1997 QS4),4.01125,3.94133,0.42,61,7,992,0.167,high,ambiguous: slow solution preferred in full-DR3 reanalysis
+11857,(1988 RK9),19.71038,3.32417,0.41,62,6,1006,4.756,high,"already published: Durech et al. 2022 (ATLAS) give 19.7181 h, which agrees (found via SsODNet in v1.2.0)"

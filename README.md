@@ -1,8 +1,13 @@
-# Candidate rotation periods for 35 main-belt asteroids from Gaia DR3 sparse photometry
+# Candidate rotation periods for 34 main-belt asteroids from Gaia DR3 sparse photometry
 
 **Author:** Oleg Tropynin (independent researcher, Kazakhstan)
 **DOI:** [10.5281/zenodo.23624115](https://doi.org/10.5281/zenodo.23624115) (all versions; v1.0.0: [10.5281/zenodo.23624116](https://doi.org/10.5281/zenodo.23624116))  
 **Status:** candidates. Not yet confirmed by dense lightcurves (see [Reliability](#reliability)).
+
+**Update v1.2.0 (2026-10-26).** The list now has 34 candidates. A check against the SsODNet compilation
+(Berthier et al. 2023, A&A 671, A151; snapshot of its ssoBFT table) found 11857 (1988 RK9) in Ďurech et al. 2022
+(Front. Astron. Space Sci. 9, 809771; ATLAS), which is not in VizieR. Their period, 19.7181 h, agrees with ours
+(19.710 h). The candidate is moved to `data/withdrawn_candidates.csv`. The other 34 were not found there.
 
 **Update v1.1.0 (2026-10-25).** The list now has 35 candidates instead of 42.
 - A full-DR3 reanalysis with a refined method ([gaia-dr3-rotation-catalog](https://github.com/olegtropinin/gaia-dr3-rotation-catalog), DOI [10.5281/zenodo.23638281](https://doi.org/10.5281/zenodo.23638281)) recovers the same period for all 35 remaining candidates.
@@ -11,17 +16,17 @@
   - for 13686, 39932 and 109412 a slow solution is now preferred, so they are ambiguous.
 - The novelty check no longer counts Liberato et al. 2024 as a source of rotation periods, because that table gives astrometric wobble periods. Agreement with the literature is now 16 of 25.
 
-This repository contains rotation-period candidates for 35 numbered main-belt asteroids.
+This repository contains rotation-period candidates for 34 numbered main-belt asteroids.
 As of October 2026, none of them had a rotation period in any source we checked (listed under
 [Novelty check](#novelty-check)). It also contains the code that produced them and the validation
 that tells you how far to trust them.
 
 | File | Contents |
 |---|---|
-| `data/candidates.csv` | The 35 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score, reliability (high / low) |
+| `data/candidates.csv` | The 34 candidates: period, the strongest alternative (alias) period, amplitude, amount of data, confidence score, reliability (high / low) |
 | `data/validation_known.csv` | The same method run on 300 asteroids whose periods are already known (JPL SBDB / LCDB) |
 | `data/literature_check.csv` | 26 of the original 68 candidates turned out to be published recently; our periods compared with theirs (one row per catalogue match; per asteroid, excluding the Liberato 2024 wobble periods: 16 agree, 5 half, 4 differ) |
-| `data/withdrawn_candidates.csv` | The 7 candidates withdrawn in v1.1.0, with the reason |
+| `data/withdrawn_candidates.csv` | The 8 withdrawn candidates (7 in v1.1.0, 1 in v1.2.0), with the reason |
 | `code/sciagent.py` | Selection, data download, period search, calibration |
 | `code/novelty_*.py`, `code/export_tables.py` | Novelty checks against VizieR and export of the tables |
 | `NOTE.md` | Short research note (method, validation, results) |
@@ -73,8 +78,8 @@ the validation set above threshold, the Ďurech & Hanuš overlap and the post-20
 
 `data/candidates.csv` therefore has a `reliability` column:
 
-- `high` (P < 50 h, 34 asteroids): expect about 83 % to be correct;
-- `low` (P ≥ 50 h, 8 asteroids): the true period is probably twice the value, or longer.
+- `high` (P < 50 h, 30 asteroids): expect about 83 % to be correct;
+- `low` (P ≥ 50 h, 4 asteroids): the true period is probably twice the value, or longer.
 
 Use all of them as targets for confirmation, not as final values.
 
@@ -86,6 +91,7 @@ The candidates are the asteroids that passed the confidence threshold and **do n
 - LCDB V4.0 summary (PDS, 2021);
 - Ďurech & Hanuš 2023, A&A 675, A24 (Gaia DR3 inversion, 8,596 asteroids);
 - DAMIT (12,611 asteroids, export of October 2026);
+- SsODNet (Berthier et al. 2023), via a snapshot of its ssoBFT table (October 2026); this includes Ďurech et al. 2022 (ATLAS, not in VizieR). The live SsODNet service returned errors on 2026-10-26, so the sources of a few periods in the snapshot could not be traced;
 - VizieR, searched twice:
   (a) every table whose columns include an identifier and a period in hours (113 tables, 0.14 million rows);
   (b) every table of 29 asteroid-rotation catalogues (66 tables, 5.0 million rows, periods in any unit).
