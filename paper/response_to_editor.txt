@@ -1,0 +1,18 @@
+Dear Dr. Lintott,
+
+Thank you for the clear comments. I have rewritten the Note so that the method can be reproduced from the text alone. The changes are:
+
+1. Model ("which terms can vary, what is the offset, what is a second-order Fourier series in rotational phase"). The model is now written as an equation (Eq. 1): reduced magnitude = c_s(i) + beta*alpha_i + sum over k=1,2 of [a_k cos(2 pi k f t_i) + b_k sin(2 pi k f t_i)]. All coefficients are free and linear: one magnitude offset per observing season (absorbing aspect changes between seasons), one phase-angle slope, and four Fourier amplitudes, solved by weighted least squares at each trial frequency. The text states that no phase-angle-bisector correction is applied, so the periods are synodic.
+
+2. Data steps now defined exactly: the per-transit averaging (unweighted means of epoch and g_mag over the CCD observations), the uncertainty formula, the Horizons query (observer 500@-139479), the light-time correction, the definition of a season (gaps longer than 60 d), and the outlier cut (5 x 1.4826 x MAD of the residuals in magnitudes, applied twice).
+
+3. Search and decision rules: the frequency grid (0.24-12 cycles per day, step 0.1/T), the period-doubling rule (adopt 2P1 when chi2(f1/2) < 1.5 chi2(f1)), how the factor 1.5 was chosen (two-fold cross-validation, factors 1.00-3.00), the definition of agreement (within 3%), the confidence score and its exclusion windows, and the threshold rule (S >= 0.1604, the last point at which the cumulative agreement on the ranked validation set is still >= 80%).
+
+4. "The 34 candidates." A new section explains step by step how they were selected: 165 confident target-set results; minus 97 solved by Durech & Hanus (2023), 25 published elsewhere and 35277 (whose only published period is an astrometric wobble period); minus 11857, found in Durech et al. (2022); minus seven whose period a second, full-DR3 analysis contradicts. Table 1 (which replaces the figure) lists all 34 with period, amplitude, number of transits and their tier in the second analysis (18 A, 12 B, 4 below).
+
+5. Validation figures. The abstract now quotes the out-of-sample agreement, 96 of 122 (79%), rather than a total that included the in-sample validation set. While revising I found and corrected a counting error: one comparison (Liberato et al. 2024) is a wobble period, not a rotation period, so the literature check is 15 of 25 (not 16 of 25) and the period bins now add up to the stated totals.
+
+The Note is about 950 words with one table. Code and data are archived on Zenodo (doi:10.5281/zenodo.23624115).
+
+Sincerely,
+Oleg Tropynin

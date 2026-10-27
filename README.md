@@ -4,6 +4,14 @@
 **DOI:** [10.5281/zenodo.23624115](https://doi.org/10.5281/zenodo.23624115) (all versions; v1.0.0: [10.5281/zenodo.23624116](https://doi.org/10.5281/zenodo.23624116))  
 **Status:** candidates. Not yet confirmed by dense lightcurves (see [Reliability](#reliability)).
 
+**Update v1.3.0 (2026-10-27).** The RNAAS note (AAS82759) was revised at the editor's request so that the
+method can be reproduced from the text: the model is written as an equation with its free parameters, and the
+averaging, seasons, outlier cut, frequency grid, doubling rule, score and threshold are defined exactly. A table
+of the 34 candidates replaces the figure; it also gives each candidate's tier in the full-DR3 analysis
+(10.5281/zenodo.23638281): 18 A, 12 B, 4 below. The literature check is corrected to 15 of 25 agreements
+(Liberato et al. 2024 give an astrometric wobble period, not a rotation period), so out of sample 96 of 122
+(79 %) agree. The candidate list itself is unchanged.
+
 **Update v1.2.0 (2026-10-26).** The list now has 34 candidates. A check against the SsODNet compilation
 (Berthier et al. 2023, A&A 671, A151; snapshot of its ssoBFT table) found 11857 (1988 RK9) in Ďurech et al. 2022
 (Front. Astron. Space Sci. 9, 809771; ATLAS), which is not in VizieR. Their period, 19.7181 h, agrees with ours
