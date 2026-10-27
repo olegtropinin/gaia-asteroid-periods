@@ -10,11 +10,11 @@
 \begin{abstract}
 I searched Gaia DR3 sparse photometry of 598 well-observed numbered asteroids for rotation periods,
 fitting at each trial frequency a linear model with season offsets, a linear phase-angle term and a
-two-harmonic Fourier series. On 336 confident results that can be compared with published periods,
-80\% agree within 3\%; accuracy falls to 36\% above 50\,h, where the method usually returns half of the
-true period. I list 34 asteroids whose confident period was absent from all major period compilations,
-as targets for confirmation. An independent reanalysis of Gaia DR3 with a refined method recovers the
-same period for all 34.
+two-harmonic Fourier series. For confident results whose period was not used to tune the method, 96 of
+122 (79\%) agree within 3\% with periods published by others; accuracy is low above 50\,h, where the
+method usually returns half of the true period. I list 34 asteroids whose confident period was absent
+from all major period compilations, as targets for confirmation. A second analysis of the same data with
+a refined method finds the same period for all 34.
 \end{abstract}
 
 \section{Data}
@@ -24,93 +24,101 @@ number of observations and kept the 6{,}000 best observed. Going down this list,
 that have a rotation period of 2--100\,h in JPL SBDB, which follows the October 2023 LCDB
 \citep{Warner2009} (\emph{validation set}), and the first 298 that have no JPL period (\emph{target set}).
 
-Gaia reports one $G$ magnitude per CCD crossing. For each transit (\texttt{transit\_id}) I averaged the
-epochs and the magnitudes of its CCD observations. The uncertainty $\sigma_i$ of transit $i$ is the
-largest relative flux error among its CCDs, converted to magnitudes and added in quadrature to a
-0.03\,mag floor. JPL Horizons, with Gaia as the observer, gave for each transit the heliocentric distance
-$r_i$, the distance $\Delta_i$ from Gaia and the phase angle $\alpha_i$. Epochs were corrected for light
-time, $t_i \to t_i-\Delta_i/c$. A new \emph{season} starts wherever consecutive transits are more than
-60\,d apart.
+Gaia reports one $G$ magnitude per CCD crossing in \texttt{sso\_observation}. For each transit
+(\texttt{transit\_id}) I took the unweighted means of \texttt{epoch} (TCB) and \texttt{g\_mag} over its CCD
+observations; $G_i$ is this mean. Its uncertainty is
+$\sigma_i=\sqrt{(1.0857\,\max\sigma_F/F)^2+0.03^2}$, with the maximum taken over the CCDs. JPL Horizons
+(observer code 500@-139479, Gaia), queried at the transit epochs, gave the heliocentric distance $r_i$ and
+the distance from Gaia $\Delta_i$ (au) and the phase angle $\alpha_i$ (deg). Epochs $t_i$ (days) were
+corrected for light time, $t_i\to t_i-\Delta_i/c$. A new \emph{season} starts wherever consecutive transits
+are more than 60\,d apart; no minimum number of transits per season is imposed.
 
 \section{Method}
 
-For a trial frequency $f$ the reduced magnitude is modelled as
+For a trial frequency $f$ (cycles per day) the reduced magnitude is modelled as
 \begin{equation}
 G_i-5\log_{10}(r_i\Delta_i)=c_{s(i)}+\beta\,\alpha_i+\sum_{k=1}^{2}\left[a_k\cos(2\pi k f t_i)+b_k\sin(2\pi k f t_i)\right],
 \end{equation}
-where $s(i)$ is the season of transit $i$. All coefficients are free and enter linearly: one magnitude
-offset $c_s$ per season, which absorbs the change of viewing geometry and aspect between seasons, a
-common phase-angle slope $\beta$, and four Fourier amplitudes $a_1,b_1,a_2,b_2$. They are solved by
-weighted least squares with weights $\sigma_i^{-2}$, giving $\chi^2(f)$. Before the search, transits
-deviating by more than five robust standard deviations ($1.4826\times$ median absolute deviation) from
-the fit without Fourier terms are removed, in two passes.
+where $s(i)$ is the season of transit $i$. All coefficients are free and linear: one offset $c_s$ per
+season, which absorbs changes of aspect between seasons, a common phase slope $\beta$ (mag\,deg$^{-1}$),
+and four Fourier amplitudes. They are solved by least squares with weights $\sigma_i^{-2}$, giving
+$\chi^2(f)$. No correction for the motion of the phase-angle bisector is applied, so periods are
+synodic. Before the search, the model without Fourier terms is fitted, transits whose residual exceeds
+$5\times1.4826$ times the median absolute deviation of the residuals are removed, and fit and cut are
+repeated once.
 
-I evaluated $\chi^2(f)$ on a uniform grid from 0.24 to 12 rotations per day ($P=1/f$ from 100 to 2\,h)
-with a step of $0.1/T$, where $T$ is the time span of the data. The best frequency $f_1$ gives the peak
-period $P_1=1/f_1$. Because most lightcurves are double-peaked and the second harmonic can fit them at
-half the rotation period, I adopt $2P_1$ whenever $\chi^2(f_1/2)<1.5\,\chi^2(f_1)$ and $2P_1\le100$\,h.
-The factor 1.5 was chosen by two-fold cross-validation on the validation set. The amplitude is the
-peak-to-peak range of the fitted Fourier series.
+$\chi^2(f)$ is evaluated on a uniform grid from 0.24 to 12 cycles per day with a step of $0.1/T$, where $T$
+is the time span. The grid minimum $f_1$ gives $P_1=1/f_1$. Because most lightcurves are double-peaked and
+can be fitted by the second harmonic at half the period, I adopt $P=2P_1$ when $\chi^2(f_1/2)$, computed
+exactly, is below $1.5\,\chi^2(f_1)$ and $2P_1\le100$\,h; otherwise $P=P_1$. The factor 1.5 maximises the
+number of validation periods within 3\% of the reference ($|P-P_{\rm ref}|/P_{\rm ref}<0.03$; half or double
+counts as disagreement) over factors 1.00--3.00 in steps of 0.05. The amplitude is the peak-to-peak range of
+the Fourier terms fitted at $1/P$.
 
-The confidence score is $S=\ln(\chi^2_0/\chi^2_1)\,(\chi^2_2/\chi^2_1-1)$, where $\chi^2_0$ is the fit
-without Fourier terms, $\chi^2_1=\chi^2(f_1)$, and $\chi^2_2$ is the lowest $\chi^2$ farther than $5/T$
-from $f_1$, $2f_1$ and $f_1/2$. The first factor measures how much rotation improves the fit, the second
-how much the best peak stands out. The threshold $S\ge0.1604$ is the lowest score at which the
-highest-scoring validation results reach 80\% agreement within 3\%. The code is archived with the data
+The confidence score is $S=\ln(\chi^2_0/\chi^2_1)\,(\chi^2_2/\chi^2_1-1)$, with $\chi^2_0$ the fit without
+Fourier terms, $\chi^2_1=\chi^2(f_1)$ whether or not the period is doubled, and $\chi^2_2$ the lowest grid
+value outside $\pm5/T$ of $f_1$, $f_1/2$ and $2f_1$ (of $f_1/4$ instead of $2f_1$ when
+$\chi^2(f_1/2)<1.25\,\chi^2(f_1)$). Sorting the validation results by decreasing $S$, the threshold
+$S\ge0.1604$ is the score of the last asteroid at which the cumulative agreement fraction is still at
+least 80\% (from the tenth asteroid on). Code and the list of VizieR tables are archived with the data
 \citep{Tropynin2026}.
 
 \section{Validation}
 
-The cross-validated recovery rate on the full validation set is 67.7\%. Above the threshold:
+With the doubling factor chosen on one half of the validation set (alternate asteroids in the ranked list)
+and tested on the other, 203 of 300 periods agree. Above the threshold:
 \begin{itemize}
 \item validation set: 172 of 214 agree (in-sample, because this set fixed the threshold);
-\item target-set asteroids that \citet{Durech2023} solved from the same Gaia data with a different
-method: 81 of 97 agree;
-\item target-set asteroids published since by \citet{Cellino2024}, \citet{MacLennan2026} or
-\citet{McNeill2023}: 15 of 25 agree.
+\item target-set asteroids solved from the same Gaia data with a different method by \citet{Durech2023}:
+81 of 97 agree;
+\item the other confident target-set asteroids with a rotation period in \citet{Cellino2024},
+\citet{MacLennan2026} or \citet{McNeill2023}: 15 of 25 agree.
 \end{itemize}
-In total 268 of 336 (80\%) agree. Accuracy is 81--89\% below 50\,h and 10 of 28 above it, where half
-the true period is usually returned. Slow rotators beyond 100\,h receive spurious short periods.
+Out of sample, 96 of 122 (79\%) agree. By period, 165 of 203 (2--10\,h), 79 of 89 (10--30\,h), 15 of 17
+(30--50\,h) and 10 of 28 (50--100\,h) agree, counting all three groups.
 
 \section{The 34 candidates}
 
-Of the 298 target-set asteroids, 165 pass the threshold. I removed the 97 solved by
-\citet{Durech2023} and every asteroid with a rotation period, in October 2026, in JPL SBDB, LCDB~V4.0,
-DAMIT \citep{Durech2010}, the SsODNet ssoBFT table \citep{Berthier2023}, about 180 VizieR tables
-(5.1 million rows), or the Minor Planet Bulletin volumes 50--53. Of the 42 that remained, a
-reanalysis of all of Gaia DR3 with a refined, independently calibrated method \citep{Tropynin2026b}
-dropped seven (four probably at twice the period found here, three now preferring slow solutions),
-and \citet{Durech2022} already gives 19.72\,h for 11857 from ATLAS photometry. The remaining 34
-(Table~\ref{tab:1}) are all main-belt asteroids with 58--91 transits in 4--7 seasons, and the reanalysis recovers the same period within
-3\% for each of them. From the validation, I expect about 83\% of the 30 periods below 50\,h to be
-correct. The repository lists for every candidate the alias period, the number of seasons, the time
-span and the score. I offer the list as targets for dense-lightcurve confirmation.
+Of the 298 target-set asteroids, 165 pass the threshold. I removed the 97 solved by \citet{Durech2023}, the
+25 above, and 35277, whose only published period, 23.61\,h \citep{Liberato2024}, comes from astrometric
+wobble but is close to ours (23.88\,h). None of the remaining 42 has a rotation period, in October 2026, in
+JPL SBDB, LCDB~V4.0, DAMIT \citep{Durech2010}, the SsODNet ssoBFT table \citep{Berthier2023}, 179 VizieR
+tables (5.1 million rows), or the Minor Planet Bulletin volumes 50--53, except 11857, for which
+\citet{Durech2022} give 19.72\,h from ATLAS photometry. A second analysis of all of Gaia DR3
+\citep{Tropynin2026b} adds a correction for the phase-angle bisector, a calibrated probability that a period
+is correct, and searches to 1000\,h. I dropped the seven candidates where its best period differs by more
+than 3\%: four where it is twice ours and three where it is a slow solution. The remaining 34
+(Table~\ref{tab:1}) are main-belt asteroids with 58--91 transits in 4--7 seasons; the best period of the
+second analysis is within 0.2\% of ours for all of them, with probability above 0.8 for 18. Formal period
+uncertainties are not computed. Out of sample, about four in five periods below 50\,h agree with published
+values. I offer the list as targets for dense-lightcurve confirmation.
 
-\begin{deluxetable*}{rrcr|rrcr}
+\begin{deluxetable*}{rrcrc|rrcrc}
 \tablecaption{The 34 candidate rotation periods.\label{tab:1}}
-\tablehead{\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$} &
-\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$}}
+\tablehead{\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$} & \colhead{Q} &
+\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$} & \colhead{Q}}
 \startdata
-5897 & 6.0729 & 0.39 & 67 & 44204 & 4.7663 & 0.72 & 65 \\
-8751 & 3.2402 & 0.25 & 70 & 45726 & 7.9396 & 0.33 & 69 \\
-11621 & 33.7373 & 0.60 & 59 & 47917 & 4.7480 & 0.38 & 80 \\
-11818 & 2.7435 & 0.17 & 66 & 50588 & 56.9297$^a$ & 0.55 & 65 \\
-13363 & 8.9320 & 0.26 & 68 & 52653 & 3.7362 & 0.14 & 65 \\
-16916 & 3.8301 & 0.15 & 69 & 55335 & 5.0076 & 0.14 & 61 \\
-17337 & 4.9700 & 0.21 & 65 & 56994 & 14.7458 & 0.39 & 64 \\
-22427 & 5.4857 & 0.46 & 66 & 63007 & 4.4476 & 0.33 & 65 \\
-24359 & 16.1525 & 0.22 & 62 & 64303 & 8.8781 & 0.19 & 63 \\
-24711 & 6.4557 & 0.75 & 61 & 65213 & 3.8679 & 0.34 & 73 \\
-30068 & 8.3416 & 0.27 & 72 & 72885 & 3.0007 & 0.32 & 62 \\
-31611 & 5.4767 & 0.38 & 62 & 84508 & 3.0394 & 0.23 & 69 \\
-32778 & 66.9411$^a$ & 0.56 & 63 & 87249 & 4.4550 & 0.19 & 70 \\
-35653 & 30.0890 & 0.13 & 66 & 88237 & 52.2814$^a$ & 0.10 & 58 \\
-40172 & 5.1295 & 0.54 & 74 & 91539 & 5.6743 & 0.42 & 91 \\
-42087 & 81.9684$^a$ & 0.22 & 66 & 97578 & 2.8696 & 0.41 & 86 \\
-44017 & 3.0915 & 0.20 & 65 & 105992 & 8.0425 & 0.19 & 58 \\
+5897 & 6.0729 & 0.39 & 67 & A & 44204 & 4.7663 & 0.72 & 65 & A \\
+8751 & 3.2402 & 0.25 & 70 & A & 45726 & 7.9396 & 0.33 & 69 & B \\
+11621 & 33.7373 & 0.60 & 59 & A & 47917 & 4.7480 & 0.38 & 80 & A \\
+11818 & 2.7435 & 0.17 & 66 & B & 50588 & 56.9297$^a$ & 0.55 & 65 & A \\
+13363 & 8.9320 & 0.26 & 68 & A & 52653 & 3.7362 & 0.14 & 65 & -- \\
+16916 & 3.8301 & 0.15 & 69 & B & 55335 & 5.0076 & 0.14 & 61 & -- \\
+17337 & 4.9700 & 0.21 & 65 & B & 56994 & 14.7458 & 0.39 & 64 & A \\
+22427 & 5.4857 & 0.46 & 66 & A & 63007 & 4.4476 & 0.33 & 65 & A \\
+24359 & 16.1525 & 0.22 & 62 & A & 64303 & 8.8781 & 0.19 & 63 & B \\
+24711 & 6.4557 & 0.75 & 61 & B & 65213 & 3.8679 & 0.34 & 73 & A \\
+30068 & 8.3416 & 0.27 & 72 & B & 72885 & 3.0007 & 0.32 & 62 & B \\
+31611 & 5.4767 & 0.38 & 62 & A & 84508 & 3.0394 & 0.23 & 69 & A \\
+32778 & 66.9411$^a$ & 0.56 & 63 & A & 87249 & 4.4550 & 0.19 & 70 & B \\
+35653 & 30.0890 & 0.13 & 66 & -- & 88237 & 52.2814$^a$ & 0.10 & 58 & -- \\
+40172 & 5.1295 & 0.54 & 74 & A & 91539 & 5.6743 & 0.42 & 91 & A \\
+42087 & 81.9684$^a$ & 0.22 & 66 & B & 97578 & 2.8696 & 0.41 & 86 & A \\
+44017 & 3.0915 & 0.20 & 65 & B & 105992 & 8.0425 & 0.19 & 58 & B \\
 \enddata
-\tablecomments{Amp.: peak-to-peak amplitude of the fitted Fourier series (mag). $N$: number of transits used.
-$^a$Period above 50\,h; the true period may be twice the value given.}
+\tablecomments{$P$: adopted period after the doubling rule. Amp.: peak-to-peak amplitude of the Fourier terms (mag).
+$N$: transits used after outlier removal. Q: tier in the second analysis \citep{Tropynin2026b}, A for
+probability $\ge0.8$, B for 0.38--0.8, -- below. $^a$Above 50\,h; the true period may be twice the value given.}
 \end{deluxetable*}
 
 \begin{acknowledgments}
@@ -126,9 +134,10 @@ help of an AI assistant (Claude, Anthropic) under the author's direction.
 \bibitem[\v{D}urech et al.(2022)]{Durech2022} \v{D}urech, J., V\'avra, M., Van\v{c}o, R., \& Erasmus, N. 2022, FrASS, 9, 809771
 \bibitem[\v{D}urech et al.(2010)]{Durech2010} \v{D}urech, J., Sidorin, V., \& Kaasalainen, M. 2010, A\&A, 513, A46
 \bibitem[MacLennan et al.(2026)]{MacLennan2026} MacLennan, E. M., et al. 2026, A\&A, 707, A131
+\bibitem[Liberato et al.(2024)]{Liberato2024} Liberato, L., Tanga, P., Mary, D., et al. 2024, A\&A, 688, A50
 \bibitem[McNeill et al.(2023)]{McNeill2023} McNeill, A., et al. 2023, AJ, 166, 152
-\bibitem[Tanga et al.(2023)]{Tanga2023} Gaia Collaboration, Tanga, P., et al. 2023, A\&A, 674, A12
-\bibitem[Tropynin(2026a)]{Tropynin2026} Tropynin, O. 2026a, Candidate rotation periods for main-belt asteroids from Gaia DR3 sparse photometry, Zenodo, doi:\dataset[10.5281/zenodo.23624115]{https://doi.org/10.5281/zenodo.23624115}
+\bibitem[Gaia Collaboration et al.(2023)]{Tanga2023} Gaia Collaboration, Tanga, P., et al. 2023, A\&A, 674, A12
+\bibitem[Tropynin(2026a)]{Tropynin2026} Tropynin, O. 2026a, Candidate rotation periods for main-belt asteroids from Gaia DR3 sparse photometry, Zenodo, v1.3.0, doi:\dataset[10.5281/zenodo.23624115]{https://doi.org/10.5281/zenodo.23624115}
 \bibitem[Tropynin(2026b)]{Tropynin2026b} Tropynin, O. 2026b, Rotation periods and spin senses of asteroids from Gaia DR3 sparse photometry, Zenodo, doi:\dataset[10.5281/zenodo.23638281]{https://doi.org/10.5281/zenodo.23638281}
 \bibitem[Warner et al.(2009)]{Warner2009} Warner, B.~D., Harris, A.~W., \& Pravec, P. 2009, Icarus, 202, 134
 \end{thebibliography}
