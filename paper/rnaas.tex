@@ -8,91 +8,110 @@
 \affiliation{Independent researcher, Kazakhstan}
 
 \begin{abstract}
-I searched Gaia DR3 sparse photometry for asteroid rotation periods with a periodogram that combines
-season offsets, a linear phase term and a second-order Fourier series. Among the numbered asteroids
-that Gaia observed most often, I analysed the 300 highest-ranked with a known period (validation set)
-and the 298 highest-ranked without one (target set). On 337 confident results that can be compared with
-published periods, 80\% agree within 3\%. Accuracy is 81--89\% for periods below 50\,h and 36\% above it,
-where the method usually returns half of the true period. I report 34 asteroids that had no rotation
-period in LCDB, JPL SBDB, DAMIT, SsODNet, about 180 VizieR tables, or the Minor Planet Bulletin 2023--2026, as
-targets for confirmation. An independent reanalysis of all of Gaia DR3 with a refined method recovers the
+I searched Gaia DR3 sparse photometry of 598 well-observed numbered asteroids for rotation periods,
+fitting at each trial frequency a linear model with season offsets, a linear phase-angle term and a
+two-harmonic Fourier series. On 336 confident results that can be compared with published periods,
+80\% agree within 3\%; accuracy falls to 36\% above 50\,h, where the method usually returns half of the
+true period. I list 34 asteroids whose confident period was absent from all major period compilations,
+as targets for confirmation. An independent reanalysis of Gaia DR3 with a refined method recovers the
 same period for all 34.
 \end{abstract}
 
-\section{Data and method}
+\section{Data}
 
-I ranked the numbered asteroids by the number of Gaia DR3 Solar-System-object observations
-\citep{Tanga2023}. From the top of this list I took the first 300 that have a rotation period of
-2--100\,h in JPL SBDB, which follows the October 2023 revision of the LCDB \citep{Warner2009}, as the
-validation set. I took the first 298 without a JPL period as the target set. Every selected asteroid has
-at least 443 Gaia observations. Gaia photometry was averaged per transit, with a 0.03\,mag error floor.
-For every transit, JPL Horizons gave the heliocentric distance $r$, the distance $\Delta$ from Gaia and
-the phase angle $\alpha$, with Gaia as the observer. Times were corrected for light time.
+I ranked the numbered asteroids in the Gaia DR3 \texttt{sso\_source} table \citep{Tanga2023} by their
+number of observations and kept the 6{,}000 best observed. Going down this list, I took the first 300
+that have a rotation period of 2--100\,h in JPL SBDB, which follows the October 2023 LCDB
+\citep{Warner2009} (\emph{validation set}), and the first 298 that have no JPL period (\emph{target set}).
 
-The reduced magnitude $G-5\log_{10}(r\Delta)$ was fit by weighted least squares with one offset per
-observing season, a linear phase term and a second-order Fourier series in rotational phase. I scanned
-2--100\,h on a frequency grid with a step of $0.1/T$, where $T$ is the time span. Because most asteroid
-lightcurves are double-peaked, I adopted the doubled period whenever doubling raised $\chi^2$ by less than
-a factor of 1.5. This factor was chosen by two-fold cross-validation on the validation set. The confidence
-score combines the $\chi^2$ gain over a no-rotation model with the separation of the best minimum from the
-next one outside the $\times1$, $\times2$ and $\times\frac12$ aliases. The confidence threshold was set on
-the validation set, at the score where precision reaches 80\%.
+Gaia reports one $G$ magnitude per CCD crossing. For each transit (\texttt{transit\_id}) I averaged the
+epochs and the magnitudes of its CCD observations. The uncertainty $\sigma_i$ of transit $i$ is the
+largest relative flux error among its CCDs, converted to magnitudes and added in quadrature to a
+0.03\,mag floor. JPL Horizons, with Gaia as the observer, gave for each transit the heliocentric distance
+$r_i$, the distance $\Delta_i$ from Gaia and the phase angle $\alpha_i$. Epochs were corrected for light
+time, $t_i \to t_i-\Delta_i/c$. A new \emph{season} starts wherever consecutive transits are more than
+60\,d apart.
+
+\section{Method}
+
+For a trial frequency $f$ the reduced magnitude is modelled as
+\begin{equation}
+G_i-5\log_{10}(r_i\Delta_i)=c_{s(i)}+\beta\,\alpha_i+\sum_{k=1}^{2}\left[a_k\cos(2\pi k f t_i)+b_k\sin(2\pi k f t_i)\right],
+\end{equation}
+where $s(i)$ is the season of transit $i$. All coefficients are free and enter linearly: one magnitude
+offset $c_s$ per season, which absorbs the change of viewing geometry and aspect between seasons, a
+common phase-angle slope $\beta$, and four Fourier amplitudes $a_1,b_1,a_2,b_2$. They are solved by
+weighted least squares with weights $\sigma_i^{-2}$, giving $\chi^2(f)$. Before the search, transits
+deviating by more than five robust standard deviations ($1.4826\times$ median absolute deviation) from
+the fit without Fourier terms are removed, in two passes.
+
+I evaluated $\chi^2(f)$ on a uniform grid from 0.24 to 12 rotations per day ($P=1/f$ from 100 to 2\,h)
+with a step of $0.1/T$, where $T$ is the time span of the data. The best frequency $f_1$ gives the peak
+period $P_1=1/f_1$. Because most lightcurves are double-peaked and the second harmonic can fit them at
+half the rotation period, I adopt $2P_1$ whenever $\chi^2(f_1/2)<1.5\,\chi^2(f_1)$ and $2P_1\le100$\,h.
+The factor 1.5 was chosen by two-fold cross-validation on the validation set. The amplitude is the
+peak-to-peak range of the fitted Fourier series.
+
+The confidence score is $S=\ln(\chi^2_0/\chi^2_1)\,(\chi^2_2/\chi^2_1-1)$, where $\chi^2_0$ is the fit
+without Fourier terms, $\chi^2_1=\chi^2(f_1)$, and $\chi^2_2$ is the lowest $\chi^2$ farther than $5/T$
+from $f_1$, $2f_1$ and $f_1/2$. The first factor measures how much rotation improves the fit, the second
+how much the best peak stands out. The threshold $S\ge0.1604$ is the lowest score at which the
+highest-scoring validation results reach 80\% agreement within 3\%. The code is archived with the data
+\citep{Tropynin2026}.
 
 \section{Validation}
 
-The cross-validated recovery rate on the validation set is 67.7\%. Above the threshold, I compared every
-result whose period is known (Figure~\ref{fig:1}):
+The cross-validated recovery rate on the full validation set is 67.7\%. Above the threshold:
 \begin{itemize}
-\item the validation set: 172 of 214 correct. This figure is in-sample, because the same set fixed the
-threshold, and is therefore optimistic;
-\item target-set asteroids that \citet{Durech2023} solved from the same Gaia data with a different method:
-81 of 97 agree. This tests the method, not the data;
-\item 25 of my initial candidates that later appeared in \citet{Cellino2024}, \citet{MacLennan2026} or
-\citet{McNeill2023}: 16 of 25 agree.
+\item validation set: 172 of 214 agree (in-sample, because this set fixed the threshold);
+\item target-set asteroids that \citet{Durech2023} solved from the same Gaia data with a different
+method: 81 of 97 agree;
+\item target-set asteroids published since by \citet{Cellino2024}, \citet{MacLennan2026} or
+\citet{McNeill2023}: 15 of 25 agree.
 \end{itemize}
-In total, 268 of 336 (80\%) agree.
+In total 268 of 336 (80\%) agree. Accuracy is 81--89\% below 50\,h and 10 of 28 above it, where half
+the true period is usually returned. Slow rotators beyond 100\,h receive spurious short periods.
 
-There are two failure modes. Above 50\,h the method usually returns half of the true period (10 of 28
-correct). Slow rotators with periods beyond 100\,h, such as 214, 818 and about 4{,}600\,h, receive
-spurious short periods.
+\section{The 34 candidates}
 
-\begin{figure}[ht!]
-\plotone{figure1.pdf}
-\caption{Period from Gaia DR3 (this work) against the published period for 337 confident results.
-The solid line marks agreement and the dashed line half of the known period. Above 50\,h the method
-usually finds half of the true period.\label{fig:1}}
-\end{figure}
+Of the 298 target-set asteroids, 165 pass the threshold. I removed the 97 solved by
+\citet{Durech2023} and every asteroid with a rotation period, in October 2026, in JPL SBDB, LCDB~V4.0,
+DAMIT \citep{Durech2010}, the SsODNet ssoBFT table \citep{Berthier2023}, about 180 VizieR tables
+(5.1 million rows), or the Minor Planet Bulletin volumes 50--53. Of the 42 that remained, a
+reanalysis of all of Gaia DR3 with a refined, independently calibrated method \citep{Tropynin2026b}
+dropped seven (four probably at twice the period found here, three now preferring slow solutions),
+and \citet{Durech2022} already gives 19.72\,h for 11857 from ATLAS photometry. The remaining 34
+(Table~\ref{tab:1}) are all main-belt asteroids with 58--91 transits in 4--7 seasons, and the reanalysis recovers the same period within
+3\% for each of them. From the validation, I expect about 83\% of the 30 periods below 50\,h to be
+correct. The repository lists for every candidate the alias period, the number of seasons, the time
+span and the score. I offer the list as targets for dense-lightcurve confirmation.
 
-\section{Results}
-
-The 34 candidates are all main-belt asteroids. In October 2026 they were absent from:
-\begin{itemize}
-\item JPL SBDB and LCDB~V4.0;
-\item \citet{Durech2023};
-\item DAMIT \citep{Durech2010};
-\item the SsODNet compilation \citep{Berthier2023}, in a snapshot of its ssoBFT table;
-\item about 180 VizieR tables (5.1 million rows) that hold asteroid rotation periods;
-\item the full text of the Minor Planet Bulletin, volumes 50--53.
-\end{itemize}
-
-Of the 34 candidates, 30 have periods below 50\,h, where I expect about 83\% to be correct. Four have
-periods above 50\,h.
-
-An independent reanalysis of all numbered asteroids with at least 25 Gaia DR3 transits used a refined method
-\citep{Tropynin2026b}. It recovers
-the same period, within 3\%, for all 34. It also led me to drop seven earlier candidates:
-\begin{itemize}
-\item four with periods above 50\,h, where the true period is most likely twice the value I found
-(7699, 14372, 43014, 104169);
-\item three where a slow solution is now preferred (13686, 39932, 109412).
-\end{itemize}
-The SsODNet check removed one more candidate: \citet{Durech2022} give 19.7181\,h for 11857 from ATLAS
-photometry, which agrees with my 19.710\,h.
-
-Periods, alias periods, amplitudes, amounts of data and flags are
-available at \url{https://github.com/olegtropinin/gaia-asteroid-periods} and archived on Zenodo
-\citep{Tropynin2026}, together with the code and the validation tables. I offer the list as targets for
-dense-lightcurve confirmation.
+\begin{deluxetable*}{rrcr|rrcr}
+\tablecaption{The 34 candidate rotation periods.\label{tab:1}}
+\tablehead{\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$} &
+\colhead{Number} & \colhead{$P$ (h)} & \colhead{Amp.} & \colhead{$N$}}
+\startdata
+5897 & 6.0729 & 0.39 & 67 & 44204 & 4.7663 & 0.72 & 65 \\
+8751 & 3.2402 & 0.25 & 70 & 45726 & 7.9396 & 0.33 & 69 \\
+11621 & 33.7373 & 0.60 & 59 & 47917 & 4.7480 & 0.38 & 80 \\
+11818 & 2.7435 & 0.17 & 66 & 50588 & 56.9297$^a$ & 0.55 & 65 \\
+13363 & 8.9320 & 0.26 & 68 & 52653 & 3.7362 & 0.14 & 65 \\
+16916 & 3.8301 & 0.15 & 69 & 55335 & 5.0076 & 0.14 & 61 \\
+17337 & 4.9700 & 0.21 & 65 & 56994 & 14.7458 & 0.39 & 64 \\
+22427 & 5.4857 & 0.46 & 66 & 63007 & 4.4476 & 0.33 & 65 \\
+24359 & 16.1525 & 0.22 & 62 & 64303 & 8.8781 & 0.19 & 63 \\
+24711 & 6.4557 & 0.75 & 61 & 65213 & 3.8679 & 0.34 & 73 \\
+30068 & 8.3416 & 0.27 & 72 & 72885 & 3.0007 & 0.32 & 62 \\
+31611 & 5.4767 & 0.38 & 62 & 84508 & 3.0394 & 0.23 & 69 \\
+32778 & 66.9411$^a$ & 0.56 & 63 & 87249 & 4.4550 & 0.19 & 70 \\
+35653 & 30.0890 & 0.13 & 66 & 88237 & 52.2814$^a$ & 0.10 & 58 \\
+40172 & 5.1295 & 0.54 & 74 & 91539 & 5.6743 & 0.42 & 91 \\
+42087 & 81.9684$^a$ & 0.22 & 66 & 97578 & 2.8696 & 0.41 & 86 \\
+44017 & 3.0915 & 0.20 & 65 & 105992 & 8.0425 & 0.19 & 58 \\
+\enddata
+\tablecomments{Amp.: peak-to-peak amplitude of the fitted Fourier series (mag). $N$: number of transits used.
+$^a$Period above 50\,h; the true period may be twice the value given.}
+\end{deluxetable*}
 
 \begin{acknowledgments}
 This work used data from the ESA mission Gaia, processed by the Gaia DPAC; JPL Horizons and the JPL
