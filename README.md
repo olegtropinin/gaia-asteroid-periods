@@ -4,6 +4,12 @@
 **DOI:** [10.5281/zenodo.23624115](https://doi.org/10.5281/zenodo.23624115) (all versions; v1.0.0: [10.5281/zenodo.23624116](https://doi.org/10.5281/zenodo.23624116))  
 **Status:** candidates. Not yet confirmed by dense lightcurves (see [Reliability](#reliability)).
 
+**2026-10-28: RNAAS declined the note (AAS82759R1).** The editor judged that the simple model here, which does not
+correct for the changing viewing geometry, is not enough next to Ďurech & Hanuš (2023). The full-DR3 analysis, which
+adds that correction and calibrated reliabilities, is
+[gaia-dr3-rotation-catalog](https://github.com/olegtropinin/gaia-dr3-rotation-catalog) (submitted to Planetary and
+Space Science, PSS-D-26-00341). This repository stays as the record of the pilot.
+
 **Update v1.3.0 (2026-10-27).** The RNAAS note (AAS82759) was revised at the editor's request so that the
 method can be reproduced from the text: the model is written as an equation with its free parameters, and the
 averaging, seasons, outlier cut, frequency grid, doubling rule, score and threshold are defined exactly. A table
